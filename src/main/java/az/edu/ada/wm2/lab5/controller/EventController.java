@@ -145,7 +145,6 @@ public class EventController {
             Event updatedEvent = eventService.updateEventPrice(id, price);
             return new ResponseEntity<>(updatedEvent, HttpStatus.OK);
         } catch (RuntimeException e) {
-            // Check if the runtime exception was due to "not found"
             if (e.getMessage() != null && e.getMessage().contains("not found")) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
