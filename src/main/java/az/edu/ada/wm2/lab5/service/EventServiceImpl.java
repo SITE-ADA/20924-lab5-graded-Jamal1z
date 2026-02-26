@@ -119,10 +119,14 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getEventsByDateRange(LocalDateTime start, LocalDateTime end) {
+        if (start == null || end == null) return List.of();
 
         return eventRepository.findAll().stream()
-            .filter()
-            .collect(Collectors.toList());
+                .filter(event -> {
+                    LocalDateTime dt = event.getEventDateTime();
+                    return dt != null && (dt.isEqual(start) || dt.isAfter(start)) && (dt.isEqual(end) || dt.isBefore(end));
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
